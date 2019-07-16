@@ -30,6 +30,11 @@ class mainS():
         print("Waiting for element ")
         return wait.until(EC.visibility_of_element_located, ele)
 
+    def explicitWaitCss(self, loc):
+        wait = WebDriverWait(driver, 45)
+        print("Waiting for element ")
+        return wait.until(EC.presence_of_element_located(By.CSS_SELECTOR, loc))
+
     def mouseOver(self, ele):
 
         def mouseOver(self, ele):
@@ -166,9 +171,20 @@ class mainS():
         driver.switch_to.frame(driver.find_element_by_xpath("//*[contains(@name,'eform_seg')][1]"))
 
         name = "Ashwin Kumar S"
-        for i in range(2, 5):
-            driver.find_element_by_xpath("//*[@id='toDoGridTable']//tr[" + str(i) + "]/td[7]").click()
-            select = Select(driver.find_element_by_id(str(i - 1) + "_owner"))
+        for i in range(1, 5):
+            # driver.find_element_by_xpath("//*[@id='toDoGridTable']//tr[" + str(i) + "]/td[7]").click()
+
+            ActionChains(driver).move_to_element(
+                driver.find_elements_by_css_selector("td:nth-child(7)")[i]).click().perform()
+            try:
+                WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"[id='" + str(i) + "_owner']")))
+                ele = driver.find_element_by_css_selector("[id='" + str(i) + "_owner']")
+            except:
+                ActionChains(driver).move_to_element(
+                    driver.find_elements_by_css_selector("td:nth-child(7)")[i]).click().perform()
+                WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"[id='" + str(i) + "_owner']")))
+                ele = ele = driver.find_element_by_css_selector("[id='" + str(i) + "_owner']")
+            select = Select(ele)
             select.select_by_visible_text(name)
 
         # driver.execute_script("document.querySelector('#a_9928178').click()")
