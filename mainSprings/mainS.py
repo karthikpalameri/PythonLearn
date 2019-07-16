@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -11,25 +12,28 @@ import sys, traceback
 driver = None;
 username = "555127"
 pwd = "Jun@2019"
-sprintNum = "SPR18"
+sprintNum = "SPR19"
 
 
 class mainS():
 
     def initializeBrowser(self):
-        location = "/Users/karthikp/Desktop/drivers/chromedriver"
-        driver = webdriver.Chrome(executable_path=location)
+        chrome_location = "/usr/local/bin/chromedriver"
+        firefox_location = "/usr/local/bin/geckodriver"
+        driver = webdriver.Chrome(executable_path=chrome_location)
         driver.maximize_window()
-        driver.implicitly_wait(10)
+        driver.implicitly_wait(20)
         return driver
 
     def explicitWait(self, ele):
-        wait = WebDriverWait(driver, 15)
+        wait = WebDriverWait(driver, 45)
         print("Waiting for element ")
         return wait.until(EC.visibility_of_element_located, ele)
 
     def mouseOver(self, ele):
-        ActionChains(driver).move_to_element(ele).perform
+
+        def mouseOver(self, ele):
+            ActionChains(driver).move_to_element(ele).perform
 
     def mouseOverAndClick(self, ele):
         mainS.explicitWait(self, ele=ele)
@@ -53,6 +57,9 @@ class mainS():
         x = main_spring_logo.location["x"]
         y = main_spring_logo.location["y"]
         print(x, y)
+        # For imac 5K use the below offset as 310
+        # ActionChains(driver).move_to_element_with_offset(main_spring_logo, x - 310, y).click().send_keys(Keys.ESCAPE).perform()
+        # For Macbookair 2017 use the below offset as 230
         ActionChains(driver).move_to_element_with_offset(main_spring_logo, x - 230, y).click().send_keys(
             Keys.ESCAPE).perform()
         # ActionChains(driver).move_to_element_with_offset(mainSprigLogo, -95, 10).click().perform()
@@ -114,7 +121,8 @@ class mainS():
         sprintList = driver.find_elements(By.CSS_SELECTOR, "tbody>tr>td[style='width:120px;']")
         print("*" * 60)
         print("\nEnter The Sprint  to proceed:")
-        #userSprintInput = input()
+        userSprintInput = None;
+        # userSprintInput = input()
         for ele in sprintList:
             if ele.text == sprintNum:  # and userSprintInput == sprintNum:
                 print("SELECTING SPRINT ->" + ele.text)
@@ -127,7 +135,43 @@ class mainS():
 
     def fillAllUserStories(self):
         time.sleep(5)
-        driver.execute_script("document.querySelector('#a_9928178').click()")
+        driver.switch_to.frame(driver.find_element_by_id("contentframe"))
+        driver.find_element_by_xpath("//*[@name='KEY_User_Story']").click()
+        all_user_stories_elements = []
+        driver.switch_to.frame(driver.find_element_by_xpath("//*[@class='EformSection']/iframe[1]"))
+        all_user_stories_elements = driver.find_elements_by_xpath("//tbody/tr/td[2]/div")
+
+        print("Fetching all User stories ->")
+        for everyEleme in all_user_stories_elements:
+            print(everyEleme.text)
+
+        main_window_handle = None
+        while not main_window_handle:
+            main_window_handle = driver.current_window_handle
+
+        all_user_stories_elements[0].click()
+        driver.switch_to.default_content()
+
+        popup_window_handle = None
+
+        while not popup_window_handle:
+            for handle in driver.window_handles:
+                if handle != main_window_handle:
+                    popup_window_handle = handle
+                    break
+        driver.switch_to.window(popup_window_handle)
+        print("Clicking on popup -> ToDOs ")
+        driver.find_element_by_xpath("//div//li[2]").click()
+        # driver.switch_to_default.content()
+        driver.switch_to.frame(driver.find_element_by_xpath("//*[contains(@name,'eform_seg')][1]"))
+
+        name = "Ashwin Kumar S"
+        for i in range(2, 5):
+            driver.find_element_by_xpath("//*[@id='toDoGridTable']//tr[" + str(i) + "]/td[7]").click()
+            select = Select(driver.find_element_by_id(str(i - 1) + "_owner"))
+            select.select_by_visible_text(name)
+
+        # driver.execute_script("document.querySelector('#a_9928178').click()")
         # if el.text == "1":
         #     el.click()
 
@@ -148,8 +192,8 @@ if __name__ == '__main__':
         traceback.print_exc()
         print(e)
     finally:
-        z = input()
-        if (z is "z"):
-            time.sleep(30)
+        print("\nPress y to kill chromedriver")
+        y = input()
+        if (y is "y"):
             driver.quit()
             print("Driver quit successfull")
