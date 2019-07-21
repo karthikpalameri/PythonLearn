@@ -1,15 +1,15 @@
 import time
+import traceback
 
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-import sys, traceback
 
-driver = None;
+driver = None
 username = "555127"
 pwd = "Jun@2019"
 sprintNum = "SPR19"
@@ -30,10 +30,10 @@ class mainS():
         print("Waiting for element ")
         return wait.until(EC.visibility_of_element_located, ele)
 
-    def explicitWaitCss(self, loc):
+    def explicitWaitCss(self, locc):
         wait = WebDriverWait(driver, 45)
         print("Waiting for element ")
-        return wait.until(EC.presence_of_element_located(By.CSS_SELECTOR, loc))
+        return wait.until(EC.presence_of_element_located(By.CSS_SELECTOR, locc))
 
     def mouseOver(self, ele):
 
@@ -126,7 +126,7 @@ class mainS():
         sprintList = driver.find_elements(By.CSS_SELECTOR, "tbody>tr>td[style='width:120px;']")
         print("*" * 60)
         print("\nEnter The Sprint  to proceed:")
-        userSprintInput = None;
+        userSprintInput = None
         # userSprintInput = input()
         for ele in sprintList:
             if ele.text == sprintNum:  # and userSprintInput == sprintNum:
@@ -146,50 +146,89 @@ class mainS():
         driver.switch_to.frame(driver.find_element_by_xpath("//*[@class='EformSection']/iframe[1]"))
         all_user_stories_elements = driver.find_elements_by_xpath("//tbody/tr/td[2]/div")
 
+        all_Resources_List = ["Ashwin Kumar S", "Balaji Karunakaran", "Christopher Cruz", "H B Aishwarya Prakash",
+                              "Jaiganesh Radha", "Karthik Palameri", "Kiran Kashimsetty Sridhar", "Lenin Kumar M",
+                              "Manuja K J", "Pintu Yadav", "Pooja Bhandari", "Priya Ramachandran", "Pushkar Sahu",
+                              "Radhika Kesaragere Iragappa", "Rajasekara Pandian Gnanasekara Pandian",
+                              "Reddy Krishna G", "Surendar Sekaran", "Udaya Vajapu", "Venkateswarlu Muttham",
+                              "Vuyyuru Sandhyarani", "Yashwanth Kumar Kururu Basavaraju", "Amani Rayala",
+                              "Mahitha Gandalur"]
+        print("Number of resourse is ->".format(len(all_Resources_List)))
         print("Fetching all User stories ->")
+        i = 0
         for everyEleme in all_user_stories_elements:
-            print(everyEleme.text)
+            print("Setting for US->>{}".format(everyEleme.text))
 
-        main_window_handle = None
-        while not main_window_handle:
-            main_window_handle = driver.current_window_handle
+            name = all_Resources_List[i]
+            print("Setting for USER->>{}".format(name))
 
-        all_user_stories_elements[0].click()
-        driver.switch_to.default_content()
+            main_window_handle = None
+            while not main_window_handle:
+                main_window_handle = driver.current_window_handle
 
-        popup_window_handle = None
+            all_user_stories_elements[0].click()
+            driver.switch_to.default_content()
 
-        while not popup_window_handle:
-            for handle in driver.window_handles:
-                if handle != main_window_handle:
-                    popup_window_handle = handle
-                    break
-        driver.switch_to.window(popup_window_handle)
-        print("Clicking on popup -> ToDOs ")
-        driver.find_element_by_xpath("//div//li[2]").click()
-        # driver.switch_to_default.content()
-        driver.switch_to.frame(driver.find_element_by_xpath("//*[contains(@name,'eform_seg')][1]"))
+            popup_window_handle = None
 
-        name = "Ashwin Kumar S"
-        for i in range(1, 5):
-            # driver.find_element_by_xpath("//*[@id='toDoGridTable']//tr[" + str(i) + "]/td[7]").click()
+            while not popup_window_handle:
+                for handle in driver.window_handles:
+                    if handle != main_window_handle:
+                        popup_window_handle = handle
+                        break
+            driver.switch_to.window(popup_window_handle)
+            print("Clicking on popup -> ToDOs ")
+            driver.find_element_by_xpath("//div//li[2]").click()
+            time.sleep((2))
+            driver.find_element_by_xpath("//div//li[2]").click()
+            # driver.switch_to_default.content()
+            driver.switch_to.frame(driver.find_element_by_xpath("//*[contains(@name,'eform_seg')][1]"))
 
-            ActionChains(driver).move_to_element(
-                driver.find_elements_by_css_selector("td:nth-child(7)")[i]).click().perform()
-            try:
-                WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"[id='" + str(i) + "_owner']")))
-                ele = driver.find_element_by_css_selector("[id='" + str(i) + "_owner']")
-            except:
+            for i in range(1, 6):
+                # driver.find_element_by_xpath("//*[@id='toDoGridTable']//tr[" + str(i) + "]/td[7]").click()
+
                 ActionChains(driver).move_to_element(
                     driver.find_elements_by_css_selector("td:nth-child(7)")[i]).click().perform()
-                WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"[id='" + str(i) + "_owner']")))
-                ele = ele = driver.find_element_by_css_selector("[id='" + str(i) + "_owner']")
-            select = Select(ele)
-            select.select_by_visible_text(name)
+                try:
+                    WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "[id='" + str(i) + "_owner']")))
+                    ele = driver.find_element_by_css_selector("[id='" + str(i) + "_owner']")
+                except:
+                    ActionChains(driver).move_to_element(
+                        driver.find_elements_by_css_selector("td:nth-child(7)")[i]).click().perform()
+                    WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "[id='" + str(i) + "_owner']")))
+                    ele = driver.find_element_by_css_selector("[id='" + str(i) + "_owner']")
+                select = Select(ele)
+                select.select_by_visible_text(name)
 
-        # driver.execute_script("document.querySelector('#a_9928178').click()")
-        # if el.text == "1":
-        #     el.click()
+            driver.find_element_by_xpath("(//input[@type='checkbox'])[7]").click()
+            # driver.find_element(By.XPATH,"//*[@title='Delete ToDo']").click()
+            driver.switch_to.default_content()
+            driver.find_element(By.XPATH, "//*[@title='Definition of Done']").click()
+            driver.switch_to.frame(driver.find_element_by_xpath("//iframe[@id='9932391']"))
+
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located(
+                    (By.XPATH, "//td[@class='ValueCenter']//select[@title='--None--']")))
+            for j in range(0, 6):
+                if j == 0 or j == 3:
+                    Select(driver.find_elements_by_xpath("//td[@class='ValueCenter']//select")[
+                               j]).select_by_visible_text("Done")
+                elif j == 1 or j == 2 or j == 4:
+                    Select(driver.find_elements_by_xpath("//td[@class='ValueCenter']//select")[
+                               j]).select_by_visible_text("Not Applicable")
+
+            try:
+                driver.execute_script("document.querySelector('#SaveBtn').click()")
+            except:
+                print("savebutton greyed out , so proceeding.!!!")
+
+            time.sleep(2)
+            # WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='CancelBtn']")))
+            driver.execute_script("document.querySelector('#CancelBtn').click()")
+
+            driver.switch_to.window(main_window_handle)
 
 
 if __name__ == '__main__':

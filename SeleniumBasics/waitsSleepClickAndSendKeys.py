@@ -1,5 +1,6 @@
-from SeleniumBasics.launchBrowser import Browserinitialize
 import time
+
+from SeleniumBasics.launchBrowserAndLocatorsShortcuts import Browserinitialize
 
 
 class AutomationOnPage():

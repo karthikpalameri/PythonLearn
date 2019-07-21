@@ -1,10 +1,11 @@
+import os
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import os
 
 
 class GlobalVariables():
-    driver = None;
+    driver = None
 
 
 class Browserinitialize():
@@ -22,7 +23,7 @@ class Browserinitialize():
             serverLocation = "/Users/karthikp/Desktop/drivers/selenium-server-standalone-3.141.59.jar"
             os.environ["SELENIUM_SERVER_JAR"] = serverLocation
             self.driver = webdriver.Safari()
-            s
+
             return self.driver
         else:
             raise Exception("Browser not initialized please check ")
