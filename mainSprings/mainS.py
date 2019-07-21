@@ -10,8 +10,8 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
 driver = None
-username = "555127"
-pwd = "Jun@2019"
+username = ""
+pwd = ""
 sprintNum = "SPR19"
 
 
