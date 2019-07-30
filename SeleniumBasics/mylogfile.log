@@ -1,0 +1,18 @@
+DEBUG:selenium.webdriver.remote.remote_connection:POST http://127.0.0.1:54440/session/10ebf37b26cbd13fea13328366de0951/url {"url": "https://jqueryui.com/slider/"}
+DEBUG:urllib3.connectionpool:http://127.0.0.1:54440 "POST /session/10ebf37b26cbd13fea13328366de0951/url HTTP/1.1" 200 14
+DEBUG:selenium.webdriver.remote.remote_connection:Finished Request
+DEBUG:selenium.webdriver.remote.remote_connection:POST http://127.0.0.1:54440/session/10ebf37b26cbd13fea13328366de0951/element {"using": "xpath", "value": "//iframe[@class='demo-frame']"}
+DEBUG:urllib3.connectionpool:http://127.0.0.1:54440 "POST /session/10ebf37b26cbd13fea13328366de0951/element HTTP/1.1" 200 88
+DEBUG:selenium.webdriver.remote.remote_connection:Finished Request
+DEBUG:selenium.webdriver.remote.remote_connection:POST http://127.0.0.1:54440/session/10ebf37b26cbd13fea13328366de0951/frame {"id": {"ELEMENT": "4a2d22e8-f135-45e1-97c8-860222999cd2", "element-6066-11e4-a52e-4f735466cecf": "4a2d22e8-f135-45e1-97c8-860222999cd2"}}
+DEBUG:urllib3.connectionpool:http://127.0.0.1:54440 "POST /session/10ebf37b26cbd13fea13328366de0951/frame HTTP/1.1" 200 14
+DEBUG:selenium.webdriver.remote.remote_connection:Finished Request
+DEBUG:selenium.webdriver.remote.remote_connection:POST http://127.0.0.1:54476/session/e0cb3d52331764e87c3d815dd2d8db10/url {"url": "https://jqueryui.com/slider/"}
+DEBUG:urllib3.connectionpool:http://127.0.0.1:54476 "POST /session/e0cb3d52331764e87c3d815dd2d8db10/url HTTP/1.1" 200 14
+DEBUG:selenium.webdriver.remote.remote_connection:Finished Request
+DEBUG:selenium.webdriver.remote.remote_connection:POST http://127.0.0.1:54476/session/e0cb3d52331764e87c3d815dd2d8db10/element {"using": "xpath", "value": "//iframe[@class='demo-frame']"}
+DEBUG:urllib3.connectionpool:http://127.0.0.1:54476 "POST /session/e0cb3d52331764e87c3d815dd2d8db10/element HTTP/1.1" 200 88
+DEBUG:selenium.webdriver.remote.remote_connection:Finished Request
+DEBUG:selenium.webdriver.remote.remote_connection:POST http://127.0.0.1:54476/session/e0cb3d52331764e87c3d815dd2d8db10/frame {"id": {"ELEMENT": "99ffebcd-0568-4918-84e1-fbbbece39a2b", "element-6066-11e4-a52e-4f735466cecf": "99ffebcd-0568-4918-84e1-fbbbece39a2b"}}
+DEBUG:urllib3.connectionpool:http://127.0.0.1:54476 "POST /session/e0cb3d52331764e87c3d815dd2d8db10/frame HTTP/1.1" 200 14
+DEBUG:selenium.webdriver.remote.remote_connection:Finished Request

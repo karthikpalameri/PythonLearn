@@ -1,4 +1,12 @@
+import datetime
+import os
+import traceback
+from time import gmtime, strftime, localtime
+
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import *
 
 
 # driver.findElementById('dfaf',locatorType)
@@ -32,12 +40,12 @@ class HandyWrapper():
             locatorType = locatorType.lower()
             byType = self.getByType(locatorType)
             element = self.driver.find_element(byType, locator)
-            print("Element Found")
+            print("Element Found. Returning element..")
+            return element
+
 
         except:
-            print("Element Not Found")
-
-        return element
+            print("Element Not Found!!!")
 
     def isElementPresent(self, locator, byType):
         element = None
@@ -69,3 +77,26 @@ class HandyWrapper():
         except:
             print("Element not found")
             return False
+
+    def waitForElement(self, locator, locatorType=id, timeout=10, poll_frequency=0.5):
+        element = None
+        byType = self.getByType(locatorType)
+        try:
+            wait = WebDriverWait(self.driver, timeout, poll_frequency)
+            element = wait.until(EC.element_to_be_clickable((byType, locator)))
+
+        except:
+            print("Element not appeared in the webpage and is not clickable")
+            traceback.print_stack()
+
+    def saveScreenShot(self):
+        """
+        takes screenshot and puts in a directory
+        :return:
+        """
+        file_location = os.getcwd() + "/Screenshots/" + strftime("%d-%m-%y_%H:%M:%S", localtime()) + ".png"
+        try:
+            self.driver.save_screenshot(file_location)
+            print("Screenshot taken in ->{}".format(file_location))
+        except:
+            print("Unable to take screenshot")

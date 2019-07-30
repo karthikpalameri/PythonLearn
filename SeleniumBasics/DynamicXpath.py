@@ -5,7 +5,6 @@ from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-
 from SeleniumBasics.HandyWrapper import HandyWrapper as HW
 
 
@@ -15,11 +14,18 @@ class DynamicXpath():
         driver = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver")
         driver.maximize_window()
         driver.implicitly_wait(10)
-
+        w = HW(driver);
         driver.get(baseUrl)
+
+        """
+        WEBDRIVER WAIT USING FRAMEWORK APPROCH
+        """
+        w.waitForElement("//option[@value='apple']", "xpath")
+
         """
         WEBDRIVER WAIT DEMO
         """
+
         WebDriverWait(driver, 10, poll_frequency=500,
                       ignored_exceptions=[NoSuchElementException, ElementNotVisibleException,
                                           ElementNotSelectableException]).until(
@@ -43,7 +49,10 @@ class DynamicXpath():
                     ele.get_attribute("value"),
                     ele.get_attribute("type"),
                     ele.is_selected()))
-
+                w.saveScreenShot()
+                returnedJSElement = driver.execute_script("return document.getElementById('bmwcheck');")
+                returnedJSElement.click()
+                w.saveScreenShot()
 
 DynamicXpath().test()
 time.sleep(20)
